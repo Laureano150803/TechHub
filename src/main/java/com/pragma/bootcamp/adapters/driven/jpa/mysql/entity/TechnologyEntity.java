@@ -1,7 +1,10 @@
 package com.pragma.bootcamp.adapters.driven.jpa.mysql.entity;
 
-import jakarta.persistence.*;
+
 import lombok.*;
+
+import javax.persistence.*;
+
 
 @Entity
 @Table(name = "technology")
@@ -9,8 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
-public class TechnologyEntity {
+public class  TechnologyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

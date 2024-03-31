@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,10 +23,9 @@ public class TechnologyRestControllerAdapter {
     private final ITechnologyServicePort technologyServicePort;
     private final ITechnologyRequestMapper technologyRequestMapper;
     private final ITechnologyResponseMapper technologyResponseMapper;
-    private final TechnologyAdapter technologyAdapter;
 
     @PostMapping("/")
-    public ResponseEntity<Void> addTechnology(@RequestBody AddTechnologyRequest request){
+    public ResponseEntity<Void> addTechnology(@Valid @RequestBody AddTechnologyRequest request){
         technologyServicePort.saveTechnology(technologyRequestMapper.addRequestToTechnology(request));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -34,13 +34,12 @@ public class TechnologyRestControllerAdapter {
     public ResponseEntity<List<TechnologyResponse>> getAllTechnologies(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size,
-            @RequestParam(defaultValue = "true") boolean isAscendent) {
+            @RequestParam(defaultValue = "true") boolean isAscendant) {
 
-        List<Technology> technologies = technologyAdapter.getAllTechnologies(page, size, isAscendent);
+        List<Technology> technologies = technologyServicePort.getAllTechnologies(page, size, isAscendant);
         List<TechnologyResponse> technologyResponses = technologies.stream()
                 .map(technologyResponseMapper::toTechnologyResponse)
                 .toList();
-
         return ResponseEntity.ok(technologyResponses);
     }
 }

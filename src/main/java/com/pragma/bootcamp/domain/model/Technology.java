@@ -1,7 +1,6 @@
 package com.pragma.bootcamp.domain.model;
-import com.pragma.bootcamp.domain.util.DomainConstants;
 
-import static java.util.Objects.requireNonNull;
+import java.util.Objects;
 
 public class Technology {
     private final Long id;
@@ -10,8 +9,8 @@ public class Technology {
 
     public Technology (Long id, String name, String description){
         this.id = id;
-        this.name = requireNonNull(name, DomainConstants.FIELD_NAME_NULL_MESSAGE);
-        this.description=requireNonNull(description, DomainConstants.FIELD_DESCRIPTION_NULL_MESSAGE);
+        this.name = name;
+        this.description=description;
     }
 
     public Long getId() {
@@ -24,5 +23,17 @@ public class Technology {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Technology that)) return false;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description);
     }
 }
